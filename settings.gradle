@@ -1,0 +1,3 @@
+rootProject.name = 'godot-kotlin'
+enableFeaturePreview('GRADLE_METADATA')
+include ':gdnative'

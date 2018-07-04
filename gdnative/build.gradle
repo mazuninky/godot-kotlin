@@ -1,0 +1,16 @@
+group 'org.godotengine'
+version '0.0.1'
+
+apply plugin: 'konan'
+
+konan.targets = ['macbook', 'linux', 'mingw']
+
+konanArtifacts {
+    interop('godot')
+    library('gdnative') {
+        enableOptimizations true
+        libraries {
+            artifact 'godot'
+        }
+    }
+}
