@@ -26,3 +26,11 @@ gdnative_api_struct.gen.h
 headerFilter = gdnative/*.h arvr/*.h nativescript/*.h pluginscript/*.h *.gen.h
 
 compilerOpts = -I./godot_headers
+
+nonStrictEnums = GDNATIVE_API_TYPES
+
+---
+
+typedef struct user_data_struct {
+    char data[256];
+} user_data_struct;

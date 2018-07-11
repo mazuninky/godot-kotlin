@@ -12,15 +12,14 @@ git clone https://github.com/zerotwoone/godot-kotlin
 ```
 2.Build libraries
  ```bash
-./gradlew gdnative:build 
+./gradlew gdnative:build
  ```
-3.Install klibs into local repository
+3.Install klib into local repository
  ```bash
-klib install gdnative/build/konan/libs/${ARCH}/godot.klib
 klib install gdnative/build/konan/libs/${ARCH}/gdnative.klib
  ```
 Where ${ARCH} your architecture
- 
+
  # Tutorial
- 
+
 ASAP

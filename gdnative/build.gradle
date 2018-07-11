@@ -3,14 +3,13 @@ version '0.0.1'
 
 apply plugin: 'konan'
 
-konan.targets = ['macbook', 'linux', 'mingw']
+konan.targets = ['macbook']
 
 konanArtifacts {
-    interop('godot')
-    library('gdnative') {
-        enableOptimizations true
+    interop('GodotApi')
+    dynamic('GDNative') {
         libraries {
-            artifact 'godot'
+            artifact 'GodotApi'
         }
     }
 }
