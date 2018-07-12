@@ -25,11 +25,13 @@ gdnative_api_struct.gen.h
 
 headerFilter = gdnative/*.h arvr/*.h nativescript/*.h pluginscript/*.h *.gen.h
 
-compilerOpts = -I./godot_headers
+compilerOpts = -fPIC -I./godot_headers -std=c99
 
 nonStrictEnums = GDNATIVE_API_TYPES
 
 ---
+const char* CLASS_NAME = "SIMPLE";
+const char* REFERENCE_VALUE = "Reference";
 
 typedef struct user_data_struct {
     char data[256];

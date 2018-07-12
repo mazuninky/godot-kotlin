@@ -8,6 +8,7 @@ konan.targets = ['macbook']
 konanArtifacts {
     interop('GodotApi')
     dynamic('GDNative') {
+        linkerOpts "-framework Cocoa -Wl,-undefined,dynamic_lookup"
         libraries {
             artifact 'GodotApi'
         }

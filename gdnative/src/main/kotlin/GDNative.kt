@@ -1,6 +1,7 @@
 import kotlinx.cinterop.*
 import GodotApi.*
 import platform.posix.strcpy
+import konan.internal.*
 
 fun createSimpleClass(godotObject: COpaquePointer?, data: COpaquePointer?): COpaquePointer? {
     val userData = nativeHeap.alloc<user_data_struct>()
@@ -32,13 +33,15 @@ object GDNative {
 }
 
 object NativeScript {
-    var apiPointer: CPointer<godot_gdnative_terminate_options>? = null
+    var apiPointer: CPointer<godot_gdnative_ext_nativescript_api_struct>? = null
     var initialized: Boolean = false
 }
 
+@ExportForCppRuntime
 @konan.internal.CName("godot_gdnative_init")
-fun godotGDnativeInit(options: CPointer<godot_gdnative_init_options>) {
-    GDNative.apiPointer = options.pointed.api_struct
+fun godotGDnativeInit(options: CPointer<godot_gdnative_init_options>?) {
+    println("godot_gdnative_init")
+    GDNative.apiPointer = options!!.pointed.api_struct
     GDNative.initialized = true
 
     val api = GDNative.apiPointer!!.pointed
@@ -52,15 +55,17 @@ fun godotGDnativeInit(options: CPointer<godot_gdnative_init_options>) {
     }
 }
 
+@ExportForCppRuntime
 @konan.internal.CName("godot_nativescript_init")
 fun godotNativescriptInit(pHandle: COpaquePointer?) {
+    println("godot_nativescript_init")
     val instanceFunc = nativeHeap.alloc<godot_instance_create_func>()
     instanceFunc.create_func = staticCFunction(::createSimpleClass)
     val destoryFunc = nativeHeap.alloc<godot_instance_destroy_func>()
     destoryFunc.destroy_func = staticCFunction(::simpleDestructor)
 
-    godot_nativescript_register_class(pHandle, "SIMPLE", "Reference",
-            instanceFunc.readValue(), destoryFunc.readValue())
+    val nativeApi = NativeScript.apiPointer?.pointed
+    nativeApi?.godot_nativescript_register_class?.invoke(pHandle, CLASS_NAME, REFERENCE_VALUE, instanceFunc.readValue(), destoryFunc.readValue())
 
     // godot_nativescript_register_property(pHandle, "SIMPLE")
 
@@ -75,8 +80,10 @@ fun godotNativescriptInit(pHandle: COpaquePointer?) {
 
 }
 
+@ExportForCppRuntime
 @konan.internal.CName("godot_gdnative_terminate")
 fun godotGDnativeTerminate(options: CPointer<godot_gdnative_init_options>) {
+    println("godot_gdnative_terminate")
     GDNative.apiPointer = null
     GDNative.initialized = false
     NativeScript.apiPointer = null
